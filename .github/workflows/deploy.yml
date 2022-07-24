@@ -1,0 +1,35 @@
+name: Build and Test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Test
+        run: |
+          go test ./...
+
+      - name: Build
+        run: |
+          go build -o bin/testpod ./cmd/testpod
+
+      - name: Publish
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: tserkov/testpod@main
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
