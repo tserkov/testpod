@@ -15,7 +15,7 @@ env:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    # environment: packaging
+
     permissions:
       contents: read
       packages: write
@@ -30,16 +30,15 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          # password: ${{ secrets.CR_PAT }}
 
       - name: Extract metadata for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            # set latest tag for default branch
-            type=raw,value=latest,enable={{is_default_branch}}
+          # tags: |
+          #   # set latest tag for default branch
+          #   type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and publish
         uses: docker/build-push-action@v3
