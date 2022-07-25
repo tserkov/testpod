@@ -10,4 +10,4 @@ build:
 docker:
     COPY +build/testpod .
     ENTRYPOINT ["/testpod/testpod"]
-    SAVE IMAGE testpod:latest
+    SAVE IMAGE --push testpod:latest
