@@ -10,4 +10,4 @@ build:
 docker:
     COPY +build/testpod .
     ENTRYPOINT ["/testpod/testpod"]
-    SAVE IMAGE --push testpod:latest
+    SAVE IMAGE --push gchr.io/tserkov/testpod:latest
