@@ -41,7 +41,7 @@ jobs:
         run: earthly --version
 
       - name: Build with Earthly
-        run: earthly --ci --output --push +docker
+        run: earthly --ci --output --push +docker --TAG=${{ github.ref_name }}
 
       # - name: Build and publish
       #   uses: docker/build-push-action@v3
