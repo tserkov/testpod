@@ -9,5 +9,7 @@ build:
 
 docker:
     COPY +build/testpod .
+    LABEL org.opencontainers.image.source https://github.com/tserkov/testpod
+    EXPOSE 8080
     ENTRYPOINT ["/testpod/testpod"]
     SAVE IMAGE --push ghcr.io/tserkov/testpod:latest
