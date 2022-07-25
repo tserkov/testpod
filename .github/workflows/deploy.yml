@@ -41,7 +41,7 @@ jobs:
         run: earthly --version
 
       - name: Build with Earthly
-        run: earthly --ci --push +build
+        run: earthly --ci --output --push +build
 
       # - name: Build and publish
       #   uses: docker/build-push-action@v3
