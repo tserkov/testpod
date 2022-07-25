@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - v*
-  pull_request:
 
 env:
   REGISTRY: ghcr.io
@@ -34,14 +33,20 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # tags: |
-          #   # set latest tag for default branch
-          #   type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Build and publish
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      - name: Install Earthly
+        run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.20/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+
+      - name: Earthly version
+        run: earthly --version
+
+      - name: Build with Earthly
+        run: earthly --ci --push +build
+
+      # - name: Build and publish
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
